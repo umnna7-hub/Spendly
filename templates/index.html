@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Expense Tracker</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div id="welcome-screen">
+    <div class="welcome-content">
+        <img src="{{ url_for('static', filename='spendly-logo.png') }}"
+             alt="SPENDLY Logo"
+             class="welcome-logo">
+
+        <button onclick="startApp()">Get Started</button>
+    </div>
+</div>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+     
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">^_-</div>
+            <div>
+                <h2>SPENDLY</h2>
+                
+            </div>
+        </div>
+
+        <div class="menu">
+
+            <button class="menu-btn active"
+                    onclick="showTab('dashboard', this)">
+                <span>⌂</span>
+                Dashboard
+            </button>
+
+            <button class="menu-btn"
+                    onclick="showTab('add', this)">
+                <span>＋</span>
+                Add Expense
+            </button>
+
+            <button class="menu-btn"
+                    onclick="showTab('expenses', this)">
+                <span>▤</span>
+                All Expenses
+            </button>
+
+            <button class="menu-btn" 
+                    onclick="showTab('budget', this)">
+                <span>Ő</span>
+                Budget
+            </button>
+
+            <button class="menu-btn"
+                    onclick="showTab('analytics', this)">
+                <span>◔</span>
+                Analytics
+            </button>
+
+        </div>
+
+        <div class="sidebar-bottom">
+            <p>Personal Finance</p>
+            <small>Track it. Understand it.</small>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+       
+            <div class="mobile-header"></div>
+
+
+    
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="tab">
+
+            <div class="topbar">
+
+                <div>
+                    <p class="small-heading">OVERVIEW</p>
+                    <h1>Assalam u Alaikum 👋</h1>
+                    <p class="subtitle">
+                        Here's what's happening with your expenses.
+                    </p>
+                </div>
+
+                <button class="primary-btn"
+                        onclick="showTab('add')">
+                    + Add Expense
+                </button>
+
+            </div>
+
+
+            <!-- STAT CARDS -->
+            <div class="stats">
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">₹</div>
+
+                    <div>
+                        <p>Total Spending</p>
+                        <h2 id="total-spending">Rs. 0</h2>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">#</div>
+
+                    <div>
+                        <p>Total Expenses</p>
+                        <h2 id="expense-count">0</h2>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon green">◉</div>
+
+                    <div>
+                        <p>Categories</p>
+                        <h2 id="category-count">0</h2>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- DASHBOARD GRID -->
+            <div class="dashboard-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Recent Expenses</h2>
+                            <p>Your latest transactions</p>
+                        </div>
+
+                        <button class="text-btn"
+                                onclick="showTab('expenses')">
+                            View all →
+                        </button>
+                    </div>
+
+                    <div id="recent-expenses"
+                         class="recent-list">
+                    </div>
+
+                </div>
+
+
+                <div class="panel quick-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Quick Add</h2>
+                            <p>Add an expense instantly</p>
+                        </div>
+                    </div>
+
+                    <button class="quick-add"
+                            onclick="showTab('add')">
+                        <span>＋</span>
+                        <div>
+                            <strong>Add new expense</strong>
+                            <small>Record where your money went</small>
+                        </div>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ADD EXPENSE -->
+        <section id="add" class="tab">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="small-heading">TRANSACTION</p>
+                    <h1>Add Expense</h1>
+                    <p class="subtitle">
+                        Record a new expense.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="form-panel">
+
+                <form id="expense-form">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label>Amount</label>
+
+                            <div class="input-money">
+                                <span>Rs.</span>
+                                <input type="number"
+                                       id="amount"
+                                       placeholder="0"
+                                       required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Category</label>
+
+                            <input type="text"
+                                   id="category"
+                                   placeholder="Food, Transport, Shopping..."
+                                   required>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Description</label>
+
+                        <input type="text"
+                               id="description"
+                               placeholder="What did you spend money on?"
+                               required>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button type="button"
+                                class="secondary-btn"
+                                onclick="showTab('dashboard')">
+                            Cancel
+                        </button>
+
+                        <button type="submit"
+                                class="primary-btn">
+                            Add Expense →
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- ALL EXPENSES -->
+        <section id="expenses" class="tab">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="small-heading">TRANSACTIONS</p>
+                    <h1>All Expenses</h1>
+                    <p class="subtitle">
+                        Manage your spending history.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="search-bar">
+
+                    <input type="text"
+                           id="search-input"
+                           placeholder="Search expenses..."
+                           oninput="searchExpenses()">
+
+                </div>
+
+                <div id="expense-list"
+                     class="expense-list">
+                </div>
+
+            </div>
+
+        </section>
+
+        <div class="tab" id="budget">
+<!-- Monthly Budget -->
+    <h2>Monthly Budget</h2>
+    <input type="month" id="budget-month">
+
+    <div class="budget-form">
+        <input type="number" id="salary" placeholder="Monthly Salary">
+
+        <input type="number" id="savings-goal" placeholder="Savings Goal">
+
+        <button onclick="saveBudget()">Save Budget</button>
+    </div>
+
+    <div class="budget-summary">
+
+        <div class="budget-card">
+            <h3>Spending Budget</h3>
+            <p id="spending-budget">Rs. 0</p>
+        </div>
+
+        <div class="budget-card">
+            <h3>Total Spent</h3>
+            <p id="budget-spent">Rs. 0</p>
+        </div>
+
+        <div class="budget-card">
+            <h3>Remaining</h3>
+            <p id="budget-remaining">Rs. 0</p>
+        </div>
+
+        <div class="budget-card">
+            <h3>Budget Used</h3>
+            <p id="budget-percentage">0%</p>
+        </div>
+
+    </div>
+
+    
+    <div class="budget-progress-section">
+
+    <div class="progress-header">
+        <span>Budget Progress</span>
+        <span id="progress-percentage">0%</span>
+    </div>
+
+    <div class="progress-bar">
+        <div id="budget-progress"></div>
+    </div>
+
+</div>
+
+<div id="budget-status"></div>
+
+</div>
+
+
+        <!-- ANALYTICS -->
+        <section id="analytics" class="tab">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="small-heading">INSIGHTS</p>
+                    <h1>Analytics</h1>
+                    <p class="subtitle">
+                        Understand where your money is going.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="analytics-stats">
+
+                <div class="analytics-card">
+                    <p>Average Expense</p>
+                    <h2 id="average-expense">Rs. 0</h2>
+                </div>
+
+                <div class="analytics-card">
+                    <p>Highest Expense</p>
+                    <h2 id="highest-expense">Rs. 0</h2>
+                </div>
+
+                <div class="analytics-card">
+                    <p>Top Category</p>
+                    <h2 id="top-category">—</h2>
+                </div>
+
+            </div>
+
+
+            <div class="analytics-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Spending by Category</h2>
+                            <p>See where most of your money goes.</p>
+                        </div>
+                    </div>
+
+                    <div id="category-chart"
+                         class="category-chart">
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Category Breakdown</h2>
+                            <p>Your spending distribution.</p>
+                        </div>
+                    </div>
+
+                    <div id="category-breakdown">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
