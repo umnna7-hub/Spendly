@@ -21,6 +21,11 @@ function showTab(tabName, button = null) {
     if (button) {
         button.classList.add("active");
     }
+
+    let sidebar = document.querySelector(".sidebar");
+    if (sidebar.classList.contains("mobile-open")) {
+        toggleMobileMenu();
+    }
 }
 
 
@@ -87,10 +92,12 @@ function updateDashboard(expenses) {
 
         item.className = "recent-item";
 
+        let color = getCategoryColor(expense.category);
+
         item.innerHTML = `
             <div class="recent-left">
 
-                <div class="category-icon">
+                <div class="category-icon" style="background:${color.bg};color:${color.fg}">
                     ${getCategoryIcon(expense.category)}
                 </div>
 
@@ -136,11 +143,13 @@ function displayExpenses(expenses) {
 
         item.className = "expense-item";
 
+        let color = getCategoryColor(expense.category);
+
         item.innerHTML = `
 
             <div class="expense-info">
 
-                <div class="category-icon">
+                <div class="category-icon" style="background:${color.bg};color:${color.fg}">
                     ${getCategoryIcon(expense.category)}
                 </div>
 
@@ -408,6 +417,9 @@ function createCategoryChart(categoryTotals) {
             let percentage =
                 (amount / max) * 100;
 
+            let color =
+                getCategoryColor(category);
+
 
             let row =
                 document.createElement("div");
@@ -424,7 +436,7 @@ function createCategoryChart(categoryTotals) {
                 <div class="chart-bar">
                     <div
                         class="chart-fill"
-                        style="width: ${percentage}%">
+                        style="width: ${percentage}%; background: ${color.fg}">
                     </div>
                 </div>
 
@@ -520,6 +532,42 @@ function getCategoryIcon(category) {
     }
 
     return "💰";
+}
+
+
+/* ---------------- CATEGORY COLORS ---------------- */
+
+function getCategoryColor(category) {
+
+    let name =
+        category.toLowerCase();
+
+    if (name.includes("food")) {
+        return { bg: "#FBE6D9", fg: "#D8672E" };
+    }
+
+    if (name.includes("transport") ||
+        name.includes("travel")) {
+        return { bg: "#DCE9F5", fg: "#3072AE" };
+    }
+
+    if (name.includes("shopping")) {
+        return { bg: "#F1DDF0", fg: "#A2489B" };
+    }
+
+    if (name.includes("bill")) {
+        return { bg: "#E4E9E7", fg: "#5C6B65" };
+    }
+
+    if (name.includes("health")) {
+        return { bg: "#FBEBE9", fg: "#B4453E" };
+    }
+
+    if (name.includes("education")) {
+        return { bg: "#E5E3F7", fg: "#5F57B8" };
+    }
+
+    return { bg: "#E4EFE8", fg: "#2F8066" };
 }
 async function saveBudget() {
     const salary = Number(document.getElementById("salary").value);
@@ -628,5 +676,17 @@ document.getElementById("budget-month").addEventListener(
     loadBudget
 );
 function toggleMobileMenu() {
-    document.querySelector(".sidebar").classList.toggle("mobile-open");
+
+    const sidebar = document.querySelector(".sidebar");
+    const icon = document.getElementById("menu-icon");
+    const overlay = document.querySelector(".sidebar-overlay");
+
+    sidebar.classList.toggle("mobile-open");
+    overlay.classList.toggle("active");
+
+    if (sidebar.classList.contains("mobile-open")) {
+        icon.textContent = "✕";
+    } else {
+        icon.textContent = "☰";
+    }
 }
